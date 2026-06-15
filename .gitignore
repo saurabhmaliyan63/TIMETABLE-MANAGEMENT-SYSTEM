@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+*.so
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+pip-wheel-metadata/
+
+# Virtual environments
+venv/
+.env/
+.venv/
+
+# SQLite / DB artifacts
+*.sqlite
+*.db
+*.sqlite3
+
+# Node (if any)
+node_modules/
+
+# Logs
+*.log
+
+# Exports / uploads / generated files
+uploads/
+exports/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE
+.vscode/
+.idea/
+
+# Misc
+cookies.txt
+

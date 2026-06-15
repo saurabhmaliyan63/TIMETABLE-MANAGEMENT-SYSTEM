@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timetable Coordinator Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>Timetable System</h2>
+                <p id="user-role">Coordinator Dashboard</p>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#" onclick="showSection('dashboard')" class="active">Dashboard</a></li>
+                <li class="sidebar-section-label">Data setup</li>
+                <li id="teachers-menu"><a href="#" onclick="showSection('teachers')">Manage Teachers</a></li>
+                <li id="rooms-menu"><a href="#" onclick="showSection('rooms')">Manage Rooms</a></li>
+                <li id="subjects-menu"><a href="#" onclick="showSection('subjects')">Manage Subjects</a></li>
+                <li id="groups-menu"><a href="#" onclick="showSection('groups')">Manage Classes</a></li>
+                <li id="assignments-menu"><a href="#" onclick="showSection('assignments')">Assign Subjects</a></li>
+                <li class="sidebar-section-label">Timing & structure</li>
+                <li id="session-types-menu"><a href="#" onclick="showSection('session-types')">Session Types & Breaks</a></li>
+                <li id="timeslots-menu"><a href="#" onclick="showSection('timeslots')">Day &amp; Periods</a></li>
+                <li class="sidebar-section-label">Timetable</li>
+                <li id="generate-menu"><a href="#" onclick="showSection('generate')">Generate Timetable</a></li>
+                <li id="view-timetable-menu"><a href="#" onclick="showSection('view-timetable')">Timetable Viewer</a></li>
+                <li id="conflicts-menu"><a href="#" onclick="showSection('conflicts')">Conflicts</a></li>
+                <li id="statistics-menu"><a href="#" onclick="showSection('statistics')">Quality &amp; Statistics</a></li>
+                <li class="sidebar-section-label">Other</li>
+                <li id="preferences-menu"><a href="#" onclick="showSection('preferences')">Teacher Preferences</a></li>
+                <li id="notifications-menu"><a href="#" onclick="showSection('notifications')">Notifications</a></li>
+                <li><a href="/logout" id="logout-btn">Logout</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <h1>Dashboard</h1>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Teachers</h3>
+                        <div class="stat-number" id="teacher-count">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Rooms</h3>
+                        <div class="stat-number" id="room-count">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Subjects</h3>
+                        <div class="stat-number" id="subject-count">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Classes</h3>
+                        <div class="stat-number" id="group-count">0</div>
+                    </div>
+                </div>
+                <div class="dashboard-setup">
+                    <h2>Quick setup guide</h2>
+                    <p>Follow these steps once, then generate a timetable.</p>
+                    <ol class="setup-checklist">
+                        <li>Check you have added all <strong>teachers</strong> and their basic details.</li>
+                        <li>Add all <strong>rooms</strong> with correct capacity and type (lecture / lab / etc.).</li>
+                        <li>Create your <strong>classes</strong> (program, year, section, class size).</li>
+                        <li>Add <strong>subjects</strong> and mark any special room type they need.</li>
+                        <li><strong>Assign subjects</strong> to teachers and classes (hours per week).</li>
+                        <li>Define the <strong>school day &amp; periods</strong> under “Day &amp; Periods”.</li>
+                        <li>Go to <strong>Generate Timetable</strong> and click “Generate Timetable”.</li>
+                    </ol>
+                    <div class="quick-actions">
+                        <button onclick="showSection('generate')" class="btn-primary large-btn">Go to Generate Timetable</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Teachers Section -->
+            <section id="teachers" class="content-section">
+                <h1>Manage Teachers</h1>
+                <button onclick="showAddForm('teacher')" class="btn-primary">Add New Teacher</button>
+                <div class="table-controls">
+                    <input type="text" placeholder="Search teachers..." class="search-input" data-table="teachers-table">
+                </div>
+                <div id="teachers-table-container">
+                    <table id="teachers-table" class="data-table">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable('teachers-table', 0)" class="sortable">ID <span class="sort-indicator"></span></th>
+                                <th onclick="sortTable('teachers-table', 1)" class="sortable">Name <span class="sort-indicator"></span></th>
+                                <th onclick="sortTable('teachers-table', 2)" class="sortable">Email <span class="sort-indicator"></span></th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Rooms Section -->
+            <section id="rooms" class="content-section">
+                <h1>Manage Rooms</h1>
+                <button onclick="showAddForm('room')" class="btn-primary">Add New Room</button>
+                <div class="table-controls">
+                    <input type="text" placeholder="Search rooms..." class="search-input" data-table="rooms-table">
+                </div>
+                <div id="rooms-table-container">
+                    <table id="rooms-table" class="data-table">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable('rooms-table', 0)" class="sortable">ID <span class="sort-indicator"></span></th>
+                                <th onclick="sortTable('rooms-table', 1)" class="sortable">Name <span class="sort-indicator"></span></th>
+                                <th onclick="sortTable('rooms-table', 2)" class="sortable">Capacity <span class="sort-indicator"></span></th>
+                                <th onclick="sortTable('rooms-table', 3)" class="sortable">Type <span class="sort-indicator"></span></th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Subjects Section -->
+            <section id="subjects" class="content-section">
+                <h1>Manage Subjects</h1>
+                <button onclick="showAddForm('subject')" class="btn-primary">Add New Subject</button>
+                <div class="table-controls">
+                    <input type="text" placeholder="Search subjects..." class="search-input" data-table="subjects-table">
+                </div>
+                <div id="subjects-table-container">
+                    <table id="subjects-table" class="data-table">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable('subjects-table', 0)" class="sortable">ID <span class="sort-indicator"></span></th>
+                                <th onclick="sortTable('subjects-table', 1)" class="sortable">Name <span class="sort-indicator"></span></th>
+                                <th onclick="sortTable('subjects-table', 2)" class="sortable">Room Type <span class="sort-indicator"></span></th>\n                                <th onclick="sortTable('subjects-table', 3)" class="sortable">Assigned Classes <span class="sort-indicator"></span></th>\n                                <th>Actions</th>\n                            </tr>\n                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Classes Section -->
+            <section id="groups" class="content-section">
+                <h1>Manage Classes</h1>
+                <button onclick="showAddForm('group')" class="btn-primary">Add New Class</button>
+                <div class="table-controls">
+                    <input type="text" placeholder="Search classes..." class="search-input" data-table="groups-table">
+                </div>
+                <div id="groups-table-container">
+                    <table id="groups-table" class="data-table">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable('groups-table', 0)" class="sortable">ID <span class="sort-indicator"></span></th>
+                                <th onclick="sortTable('groups-table', 1)" class="sortable">Program <span class="sort-indicator"></span></th>
+                                <th onclick="sortTable('groups-table', 2)" class="sortable">Section <span class="sort-indicator"></span></th>
+                                <th onclick="sortTable('groups-table', 3)" class="sortable">Year <span class="sort-indicator"></span></th>
+                                <th onclick="sortTable('groups-table', 4)" class="sortable">Size <span class="sort-indicator"></span></th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Subject Assignments Section -->
+            <section id="assignments" class="content-section">
+             
+                <button onclick="showAddForm('assignment')" class="btn-primary">Add New Assignment</button>
+                <div class="table-controls">
+                    <input type="text" placeholder="Search assignments..." class="search-input" data-table="assignments-table">
+                </div>
+                <div id="assignments-table-container">
+                    <table id="assignments-table" class="data-table">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable('assignments-table', 0)" class="sortable">ID <span class="sort-indicator"></span></th>
+                                <th onclick="sortTable('assignments-table', 1)" class="sortable">Subject <span class="sort-indicator"></span></th>
+                                <th onclick="sortTable('assignments-table', 2)" class="sortable">Teacher <span class="sort-indicator"></span></th>
+                                <th onclick="sortTable('assignments-table', 3)" class="sortable">Group <span class="sort-indicator"></span></th>
+                                <th onclick="sortTable('assignments-table', 4)" class="sortable">Hours/Week <span class="sort-indicator"></span></th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Session Types Section -->
+            <section id="session-types" class="content-section">
+                <h1>Manage Session Types</h1>
+                <button onclick="showAddForm('session-type')" class="btn-primary">Add New Session Type</button>
+                <div class="table-controls">
+                    <input type="text" placeholder="Search session types..." class="search-input" data-table="session-types-table">
+                </div>
+                <div id="session-types-table-container">
+                    <table id="session-types-table" class="data-table">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable('session-types-table', 0)" class="sortable">ID <span class="sort-indicator"></span></th>
+                                <th onclick="sortTable('session-types-table', 1)" class="sortable">Name <span class="sort-indicator"></span></th>
+                                <th onclick="sortTable('session-types-table', 2)" class="sortable">Description <span class="sort-indicator"></span></th>
+                                <th onclick="sortTable('session-types-table', 3)" class="sortable">Color <span class="sort-indicator"></span></th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Timeslots Section -->
+            <section id="timeslots" class="content-section">
+                <h1>Manage Timeslots</h1>
+                <div class="timeslots-actions">
+                    <button onclick="showGenerateTimeslotStructure()" class="btn-primary">Generate Timeslot Structure</button>
+                    <button onclick="showDeleteTimeslotOptions()" class="btn-danger">Delete Options</button>
+                </div>
+                <div id="timeslots-table-container">
+                    <!-- Timeslots grid will be displayed here -->
+                </div>
+            </section>
+
+            <!-- Generate Timetable Section -->
+            <section id="generate" class="content-section">
+                <h1>Generate Timetable</h1>
+                <div class="generate-section">
+                    <div class="generate-info">
+                        <h3>Step 1 &mdash; Check your data</h3>
+                        <p>Make sure the essentials are filled in before generating:</p>
+                        <ul id="generate-status">
+                            <li>Teachers: <span id="gen-teacher-count">0</span></li>
+                            <li>Rooms: <span id="gen-room-count">0</span></li>
+                            <li>Subjects: <span id="gen-subject-count">0</span></li>
+                            <li>Assignments: <span id="gen-assignment-count">0</span></li>
+                        </ul>
+                        <p class="generate-hint">If any count looks wrong, go back to the relevant menu on the left and fix it first.</p>
+                    </div>
+                    <div class="generate-info">
+                        <h3>Step 2 &mdash; Run the generator</h3>
+                        <p>Click the button below. The system will try several combinations and will tell you clearly if something is missing (e.g. room too small, no timeslots, etc.).</p>
+                    </div>
+                    <button onclick="generateTimetable()" class="btn-primary large-btn" id="generate-btn">
+                        Generate Timetable
+                    </button>
+                    <div class="generate-info">
+                        <h3>Step 3 &mdash; Review any issues</h3>
+                        <p>If there is a problem, a detailed message will appear here with a direct link to what you should fix.</p>
+                    </div>
+                    <div id="generation-status" class="generation-status"></div>
+                </div>
+            </section>
+
+            <!-- View Timetable Section -->
+            <section id="view-timetable" class="content-section">
+                <h1>View Timetable</h1>
+                <div class="timetable-viewer">
+                    <div class="timetable-controls">
+                        <div class="multi-timetable-controls">
+                            <button onclick="toggleMultiTimetableMenu()" class="btn-primary" id="multi-timetable-btn">
+                                View Multiple Timetables ▼
+                            </button>
+                            <div id="multi-timetable-menu" class="multi-timetable-menu" style="display: none;">
+                                <div class="menu-section">
+                                    <button onclick="loadAllTimetables()" class="btn-primary">Select All Classes</button>
+                                </div>
+                                <div class="menu-section">
+                                    <p>Select Multiple:</p>
+                                    <div id="multi-section-checkboxes">
+                                        <!-- Checkboxes will be populated dynamically -->
+                                    </div>
+                                    <button onclick="loadSelectedTimetables()" class="btn-secondary">Load Selected</button>
+                                </div>
+                            </div>
+                        </div>
+                        <label for="section-select">Select Class:</label>
+                        <select id="section-select" onchange="loadTimetable()">
+                            <option value="">Select Class</option>
+                        </select>
+                        <button onclick="loadTimetable()" class="btn-secondary">Refresh</button>
+                        <button onclick="enableManualEditing()" class="btn-primary">Enable Editing</button>
+                        <button onclick="showDeleteTimetableOptions()" class="btn-danger">Delete Timetable</button>
+                        <div class="export-buttons">
+                            <button onclick="showExportOptions()" class="btn-primary" id="export-btn">Export ▼</button>
+                        </div>
+                        <div id="export-options-menu" class="export-options-menu" style="display: none;">
+                            <div class="export-option-section">
+                                <h4>Current View</h4>
+                                <button onclick="exportTimetable('pdf')" class="btn-secondary">Export PDF</button>
+                                <button onclick="exportTimetable('excel')" class="btn-secondary">Export Excel</button>
+                                <button onclick="exportTimetable('csv')" class="btn-secondary">Export CSV</button>
+                            </div>
+                            <div class="export-option-section">
+                                <h4>All Classes</h4>
+                                <button onclick="exportAllTimetables('pdf')" class="btn-primary">Export All as PDF</button>
+                                <button onclick="exportAllTimetables('excel')" class="btn-primary">Export All as Excel</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="timetable-container">
+                        <!-- Timetable will be displayed here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Conflicts Section -->
+            <section id="conflicts" class="content-section">
+                <h1>Conflict Detection</h1>
+                <div class="conflicts-section">
+                    <button onclick="loadConflicts()" class="btn-primary">Check Conflicts</button>
+                    <div id="conflicts-container">
+                        <!-- Conflicts will be displayed here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Statistics Section -->
+            <section id="statistics" class="content-section">
+                <h1>Statistics & Analytics</h1>
+                <div class="statistics-section">
+                    <div class="stats-tabs">
+                        <button onclick="showStatTab('workload')" class="stat-tab active">Workload</button>
+                        <button onclick="showStatTab('utilization')" class="stat-tab">Room Utilization</button>
+                        <button onclick="showStatTab('quality')" class="stat-tab">Quality Metrics</button>
+                    </div>
+                    <div id="workload-stats-container" class="stat-tab-content active">
+                        <!-- Workload statistics -->
+                    </div>
+                    <div id="room-utilization-container" class="stat-tab-content">
+                        <!-- Room utilization statistics -->
+                    </div>
+                    <div id="quality-metrics-container" class="stat-tab-content">
+                        <!-- Quality metrics -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Teacher Preferences Section -->
+            <section id="preferences" class="content-section">
+                <h1>Teacher Preferences</h1>
+                <div class="preferences-section">
+                    <div class="form-group">
+                        <label for="teacher-pref-select">Select Teacher:</label>
+                        <select id="teacher-pref-select" onchange="loadTeacherPreferences(this.value)">
+                            <option value="">Select a teacher</option>
+                        </select>
+                    </div>
+                    <button onclick="showAddPreferenceForm()" class="btn-primary">Add Preference</button>
+                    <div id="preferences-container">
+                        <!-- Preferences will be displayed here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Notifications Section -->
+            <section id="notifications" class="content-section">
+                <h1>Notifications</h1>
+                <div id="notifications-container">
+                    <!-- Notifications will be displayed here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal for Add/Edit Forms -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title">Add New Item</h2>
+            <form id="modal-form">
+                <!-- Form fields will be dynamically added here -->
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <span id="toast-message"></span>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script src="js/advanced_features.js"></script>
+</body>
+</html>
