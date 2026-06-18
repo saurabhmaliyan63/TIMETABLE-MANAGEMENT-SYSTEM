@@ -5,8 +5,8 @@ def get_db_connection():
     """Get database connection."""
     return mysql.connector.connect(
         host="localhost",
-        user="root",
-        password="root",
+        user="Username",
+        password="db_password",
         database="timetable_db"
     )
 
