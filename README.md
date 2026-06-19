@@ -154,11 +154,6 @@ Visit **http://localhost:5000** in your browser.
 
 ---
 
-## 📸 Screenshots
-
-> *Add screenshots of your dashboard, timetable viewer, and conflict detection page here.*
-
----
 
 ## 🤝 Contributing
 
