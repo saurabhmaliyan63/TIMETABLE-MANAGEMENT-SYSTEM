@@ -171,4 +171,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 **Saurabh Maliyan**  
 GitHub: [@saurabhmaliyan63](https://github.com/saurabhmaliyan63)
-Gmail : [saurabhmaliyan63@gmail.com](saurabhmaliyan63@gmail.com)
+Gmail : [saurabhmaliyan63@gmail.com]
