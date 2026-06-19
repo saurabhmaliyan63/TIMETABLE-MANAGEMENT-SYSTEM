@@ -38,7 +38,7 @@ A full-stack web application for managing and automatically generating academic 
 - Mark conflicts as resolved
 
 ### 📤 Export Options
-- Export timetable as **PDF**, **Excel (.xlsx)**, **CSV**, or **iCal (.ics)**
+- Export timetable as **PDF**, **Excel (.xlsx)**
 - Export a single class or all classes at once
 - Multi-section Excel export (one sheet per class)
 
